@@ -2,67 +2,52 @@ package todomvc;
 
 import net.serenitybdd.annotations.Managed;
 import net.serenitybdd.annotations.Steps;
-import net.serenitybdd.junit.runners.SerenityParameterizedRunner;
-import net.thucydides.junit.annotations.TestData;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.WebDriver;
 import todomvc.actions.TodoListActions;
-
-import java.util.Collection;
 import java.util.List;
 
 import static java.util.Arrays.asList;
 import static net.serenitybdd.core.Serenity.*;
 import static org.assertj.core.api.Assertions.*;
 
-@RunWith(SerenityParameterizedRunner.class)
+@DisplayName("When filtering tasks")
 public class WhenFilteringTasks {
 
-    //
     @Managed(driver = "firefox")
     WebDriver driver;
     @Steps
     TodoListActions todoList;
-    private String filterBy;
-    private List<String> tasks;
-    private String itemToBeCompleted;
-    private List<String> itemsLeft;
-
-    public WhenFilteringTasks(String filterBy,
-                              List<String> tasks,
-                              String itemToBeCompleted,
-                              List<String> itemsLeft) {
-        this.filterBy = filterBy;
-        this.tasks = tasks;
-        this.itemToBeCompleted = itemToBeCompleted;
-        this.itemsLeft = itemsLeft;
+    @AfterEach
+    public void tearDown()
+    {
+        getDriver().quit();
     }
-    @TestData(columnNames = "Filter By, Todo Items, Item to be completed, Items left")
-    public static Collection<Object[]> testData() {
-        return asList(
-                new Object[][] {
-                        {"Completed", asList("Feed the cat", "Walk the dog"), "Feed the cat", asList("Feed the cat") },
-                        {"Active", asList("Feed the cat", "Walk the dog"), "Feed the cat", asList("Walk the dog")},
-                        {"All", asList("Feed the cat", "Walk the dog"), "Feed the cat", asList("Feed the cat", "Walk the dog")},
-                }
-        );
-    }
-
-    @Before
-    public void openTheApplication() {
+        @ParameterizedTest
+        @CsvSource({
+                "Completed,  Feed the cat;Walk the dog,  Feed the cat,  Feed the cat",
+                "Active,     Feed the cat;Walk the dog,  Feed the cat,  Walk the dog",
+                "All,        Feed the cat;Walk the dog,  Feed the cat,  Feed the cat;Walk the dog"
+        })
+        public void shouldFilterTasks(String filterBy,
+                                      String tasks,
+                                      String itemToBeCompleted,
+                                      String itemsLeft) {
         todoList.openApp();
-        todoList.addTasks(tasks);
-        todoList.completeTheTask(itemToBeCompleted);
-    }
-        @Test
-        public void shouldFilterTasks() {
-            todoList.filterTasksByStatus(filterBy);
+        todoList.addTasks(listFrom(tasks));
+        todoList.completeTheTask(itemToBeCompleted);    
+        todoList.filterTasksByStatus(filterBy);
             reportThat("The todo list should contain the expected items",
-                    () -> assertThat(todoList.items()).hasSameElementsAs(itemsLeft));
+                    () -> assertThat(todoList.items()).hasSameElementsAs(listFrom(itemsLeft)));
 
         }
+
+    private List<String> listFrom(String tasks) {
+            return asList(tasks.split(";"));
+    }
 
 
     /*

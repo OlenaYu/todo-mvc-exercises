@@ -3,22 +3,21 @@ package todomvc;
 import net.serenitybdd.annotations.Managed;
 import net.serenitybdd.annotations.Steps;
 import net.serenitybdd.core.Serenity;
-import net.serenitybdd.junit.runners.SerenityRunner;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import todomvc.actions.TodoListActions;
-
-@RunWith(SerenityRunner.class)
-public class WhenDeletingATask {
+@DisplayName("When deleting a task")
+ class WhenDeletingATask {
     @Managed(driver = "firefox")
     WebDriver driver;
 
     @Steps
     TodoListActions todoList;
-    @Before
+    @BeforeEach
     public void openTheApplication() {
         todoList.openApp();
     }

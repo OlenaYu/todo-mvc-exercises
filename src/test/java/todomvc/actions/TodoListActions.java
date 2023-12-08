@@ -2,6 +2,7 @@ package todomvc.actions;
 
 import net.serenitybdd.annotations.Step;
 import net.serenitybdd.core.steps.UIInteractionSteps;
+import org.openqa.selenium.JavascriptExecutor;
 
 import java.util.List;
 
@@ -13,8 +14,7 @@ public class TodoListActions extends UIInteractionSteps {
 
     @Step("Open the TodoMVC application")
     public void openApp() {
-        openUrl("https://todomvc.com/examples/angularjs/#");
-
+        openPageNamed("home");
     }
     @Step("Add a new '{0}' task")
     public void addATask(String task) {
@@ -61,4 +61,10 @@ public class TodoListActions extends UIInteractionSteps {
     public List<String> items() {
         return $$(ITEMS_LABELS).texts();
     }
+
+    public void clearList() {
+       // ((JavascriptExecutor)driver).executeScript("localStorage.clear();");
+        ((JavascriptExecutor)getDriver()).executeScript("window.localStorage.clear();");
+    }
 }
+
