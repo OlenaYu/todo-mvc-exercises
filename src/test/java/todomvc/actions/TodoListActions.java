@@ -14,8 +14,7 @@ public class TodoListActions extends UIInteractionSteps {
 
     @Step("Open the TodoMVC application")
     public void openApp() {
-        openUrl("https://todomvc.com/examples/angularjs/#");
-
+        openPageNamed("home");
     }
     @Step("Add a new '{0}' task")
     public void addATask(String task) {
