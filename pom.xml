@@ -10,8 +10,8 @@
     <name>Sample Serenity BDD project using JUnit</name>
 
     <properties>
-        <serenity.version>3.3.0</serenity.version>
-        <serenity.maven.version>3.3.0</serenity.maven.version>
+        <serenity.version>4.0.12</serenity.version>
+        <serenity.maven.version>4.0.12</serenity.maven.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <encoding>UTF-8</encoding>
         <tags></tags>
@@ -65,14 +65,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M4</version>
+                <version>3.1.2</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M4</version>
+                <version>3.2.2</version>
                 <configuration>
                     <includes>
                         <include>**/*Test.java</include>
