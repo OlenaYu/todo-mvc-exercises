@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.*;
 @RunWith(SerenityParameterizedRunner.class)
 public class WhenFilteringTasks {
 
+    //
     @Managed(driver = "firefox")
     WebDriver driver;
     @Steps
