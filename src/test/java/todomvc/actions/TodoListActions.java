@@ -2,6 +2,7 @@ package todomvc.actions;
 
 import net.serenitybdd.annotations.Step;
 import net.serenitybdd.core.steps.UIInteractionSteps;
+import org.openqa.selenium.JavascriptExecutor;
 
 import java.util.List;
 
@@ -61,4 +62,10 @@ public class TodoListActions extends UIInteractionSteps {
     public List<String> items() {
         return $$(ITEMS_LABELS).texts();
     }
+
+    public void clearList() {
+       // ((JavascriptExecutor)driver).executeScript("localStorage.clear();");
+        ((JavascriptExecutor)getDriver()).executeScript("window.localStorage.clear();");
+    }
 }
+
